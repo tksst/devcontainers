@@ -2,7 +2,14 @@
 
 FROM ubuntu:jammy-20220421
 
-RUN --mount=type=tmpfs,target=/tmp cd /tmp \
+# /etc/apt/apt.conf.d/docker-clean disables /var/cache/apt/archives caching
+# so disabled temporarily
+
+RUN \
+--mount=type=cache,target=/var/lib/apt/lists \
+--mount=type=cache,target=/var/cache/apt \
+--mount=type=cache,target=/tmp/packages \
+mv /etc/apt/apt.conf.d/docker-clean / \
 && yes | unminimize \
 && ZSHCONFIGDEB=tksst-zsh-config_1.0.0-1_all.deb \
 && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -27,16 +34,21 @@ openssl \
 unzip \
 tzdata \
 ca-certificates \
-&& wget "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}" \
+&& cd /tmp/packages \
+&& wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}" \
 && apt-get install -y ./${ZSHCONFIGDEB} \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/*
+&& mv /docker-clean /etc/apt/apt.conf.d/
 
 # AWS CLI
 # FIXME: amd64 specific
-RUN --mount=type=tmpfs,target=/tmp cd /tmp \
-&& curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-&& unzip -q awscliv2.zip && ./aws/install
+RUN \
+--mount=type=cache,target=/tmp/packages \
+--mount=type=tmpfs,target=/tmp/tmp \
+cd /tmp/packages \
+&& wget -N "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
+&& cd /tmp/tmp \
+&& unzip -q /tmp/packages/awscli-exe-linux-x86_64.zip \
+&& ./aws/install
 
 # 日本時間
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
