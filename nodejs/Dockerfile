@@ -8,7 +8,7 @@ RUN echo npm-check-updates >> ~/.nvm/default-packages
 
 ARG NPM_VER=8.8.0
 
-ARG NODE16_VER=16.14.0
+ARG NODE16_VER=16.15.0
 
 # nvm.sh requires bash
 RUN bash -c '. $HOME/.nvm/nvm.sh \
