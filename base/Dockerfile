@@ -34,6 +34,12 @@ openssl \
 unzip \
 tzdata \
 ca-certificates \
+file \
+bind9-dnsutils \
+iputils-ping \
+bzip2 \
+xz-utils \
+zstd \
 && cd /tmp/packages \
 && wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}" \
 && apt-get install -y ./${ZSHCONFIGDEB} \
