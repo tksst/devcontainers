@@ -59,6 +59,9 @@ cd /tmp/packages \
 # 日本時間
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
+# ミラーサイトを日本の理研にする
+RUN perl -pe 's#^(\s*deb\s+)http://archive.ubuntu.com/ubuntu(/|\s)#$1http://ftp.riken.jp/Linux/ubuntu$2#g' -i /etc/apt/sources.list
+
 ARG USER=user
 
 # 一般ユーザ作成
