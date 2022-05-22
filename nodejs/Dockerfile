@@ -6,7 +6,7 @@ ARG NVM_VER=0.39.1
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 RUN echo npm-check-updates >> ~/.nvm/default-packages
 
-ARG NPM_VER=8.8.0
+ARG NPM_VER=8.10.0
 
 ARG NODE16_VER=16.15.0
 
@@ -17,7 +17,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && corepack prepare --activate npm@${NPM_VER} \
 '
 
-ARG NODE14_VER=14.19.1
+ARG NODE14_VER=14.19.3
 
 RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE14_VER} --latest-npm \
@@ -25,7 +25,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && corepack prepare --activate npm@${NPM_VER} \
 '
 
-ARG NODE18_VER=18.0.0
+ARG NODE18_VER=18.2.0
 
 RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE18_VER} --latest-npm \
