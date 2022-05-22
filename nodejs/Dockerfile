@@ -32,3 +32,12 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 '
+
+ARG NODE12_VER=12.22.12
+
+RUN bash -c '. $HOME/.nvm/nvm.sh \
+&& nvm install ${NODE12_VER} --latest-npm \
+&& npm install -g corepack \
+&& corepack enable npm yarn pnpm \
+&& corepack prepare --activate npm@${NPM_VER} \
+'
