@@ -1,7 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: /
+    directory: /base
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directory: /nodejs
     schedule:
       interval: monthly
   - package-ecosystem: github-actions
