@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.2.1
-FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-7bc75c7-20220507T162401Z
+FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-a5199ee-20220613T103632Z
 
 ARG NVM_VER=0.39.1
 
