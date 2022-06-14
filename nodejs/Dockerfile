@@ -35,9 +35,11 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 
 ARG NODE12_VER=12.22.12
 
+# corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
+# https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
 RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE12_VER} --latest-npm \
-&& npm install -g corepack \
+&& npm install -g corepack@0.10.0 \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 '
