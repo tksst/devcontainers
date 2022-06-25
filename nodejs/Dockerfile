@@ -5,7 +5,7 @@ ARG NVM_VER=0.39.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 
-ARG NPM_VER=8.12.1
+ARG NPM_VER=8.13.1
 
 ARG NODE16_VER=16.15.1
 
