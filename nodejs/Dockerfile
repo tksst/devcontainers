@@ -4,7 +4,6 @@ FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-a5199ee-20220613T103632Z
 ARG NVM_VER=0.39.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
-RUN echo npm-check-updates >> ~/.nvm/default-packages
 
 ARG NPM_VER=8.12.1
 
@@ -15,6 +14,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE16_VER} --latest-npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
+&& npm install -g npm-check-updates \
 '
 
 ARG NODE14_VER=14.19.3
@@ -23,6 +23,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE14_VER} --latest-npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
+&& npm install -g npm-check-updates \
 '
 
 ARG NODE18_VER=18.3.0
@@ -31,6 +32,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE18_VER} --latest-npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
+&& npm install -g npm-check-updates \
 '
 
 ARG NODE12_VER=12.22.12
@@ -42,4 +44,5 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && npm install -g corepack@0.10.0 \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
+&& npm install -g npm-check-updates@12.2.0 \
 '
