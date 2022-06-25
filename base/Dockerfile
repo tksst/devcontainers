@@ -57,16 +57,16 @@ RUN \
 _EOFEOF_
 
 # AWS CLI
-# FIXME: amd64 specific
 RUN \
 --mount=type=cache,target=/tmp/packages \
 --mount=type=tmpfs,target=/tmp/tmp \
 <<_EOFEOF_
     set -eu
+    file=awscli-exe-linux-$(arch).zip
     cd /tmp/packages
-    wget -N "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    wget -N "https://awscli.amazonaws.com/${file}"
     cd /tmp/tmp
-    unzip -q /tmp/packages/awscli-exe-linux-x86_64.zip
+    unzip -q "/tmp/packages/${file}"
     ./aws/install
 _EOFEOF_
 
