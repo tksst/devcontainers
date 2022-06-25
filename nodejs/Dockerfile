@@ -11,7 +11,8 @@ ARG NODE16_VER=16.15.1
 
 # nvm.sh requires bash
 RUN bash -c '. $HOME/.nvm/nvm.sh \
-&& nvm install ${NODE16_VER} --latest-npm \
+&& nvm install ${NODE16_VER} \
+&& npm uninstall -g npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 && npm install -g npm-check-updates \
@@ -20,7 +21,8 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 ARG NODE14_VER=14.19.3
 
 RUN bash -c '. $HOME/.nvm/nvm.sh \
-&& nvm install ${NODE14_VER} --latest-npm \
+&& nvm install ${NODE14_VER} \
+&& npm uninstall -g npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 && npm install -g npm-check-updates \
@@ -29,7 +31,8 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 ARG NODE18_VER=18.4.0
 
 RUN bash -c '. $HOME/.nvm/nvm.sh \
-&& nvm install ${NODE18_VER} --latest-npm \
+&& nvm install ${NODE18_VER} \
+&& npm uninstall -g npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 && npm install -g npm-check-updates \
@@ -40,8 +43,9 @@ ARG NODE12_VER=12.22.12
 # corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
 # https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
 RUN bash -c '. $HOME/.nvm/nvm.sh \
-&& nvm install ${NODE12_VER} --latest-npm \
+&& nvm install ${NODE12_VER} \
 && npm install -g corepack@0.10.0 \
+&& npm uninstall -g npm \
 && corepack enable npm yarn pnpm \
 && corepack prepare --activate npm@${NPM_VER} \
 && npm install -g npm-check-updates@12.2.0 \
