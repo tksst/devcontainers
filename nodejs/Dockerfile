@@ -26,7 +26,7 @@ RUN bash -c '. $HOME/.nvm/nvm.sh \
 && npm install -g npm-check-updates \
 '
 
-ARG NODE18_VER=18.3.0
+ARG NODE18_VER=18.4.0
 
 RUN bash -c '. $HOME/.nvm/nvm.sh \
 && nvm install ${NODE18_VER} --latest-npm \
