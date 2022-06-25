@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4.1
-FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-a5199ee-20220613T103632Z
+FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-a5199ee-20220613T103632Z AS nvm
 
 ARG NVM_VER=0.39.1
 
@@ -7,6 +7,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh
 
 ARG NPM_VER=8.13.1
 
+FROM nvm AS v16
 ARG NODE16_VER=16.15.1
 
 RUN <<_EOFEOF_ zsh
@@ -19,6 +20,7 @@ RUN <<_EOFEOF_ zsh
     npm install -g npm-check-updates
 _EOFEOF_
 
+FROM nvm AS v14
 ARG NODE14_VER=14.19.3
 
 RUN <<_EOFEOF_ zsh
@@ -31,6 +33,7 @@ RUN <<_EOFEOF_ zsh
     npm install -g npm-check-updates
 _EOFEOF_
 
+FROM nvm AS v18
 ARG NODE18_VER=18.4.0
 
 RUN <<_EOFEOF_ zsh
@@ -43,6 +46,7 @@ RUN <<_EOFEOF_ zsh
     npm install -g npm-check-updates
 _EOFEOF_
 
+FROM nvm AS v12
 ARG NODE12_VER=12.22.12
 
 # corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
@@ -57,3 +61,11 @@ RUN <<_EOFEOF_ zsh
     corepack prepare --activate npm@${NPM_VER}
     npm install -g npm-check-updates@12.2.0
 _EOFEOF_
+
+FROM v18
+
+COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
+# v12はcorepackのインストールを伴うため時間がかかるはずなので、2番目にする
+COPY --from=v12 /home/user/.nvm/ /home/user/.nvm/
+# v16をデフォルトにするため、最後にコピー
+COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
