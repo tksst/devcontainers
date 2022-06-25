@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.2.1
+# syntax=docker/dockerfile:1.4.1
 
 FROM ubuntu:jammy-20220531
 
@@ -9,58 +9,66 @@ RUN \
 --mount=type=cache,target=/var/lib/apt/lists \
 --mount=type=cache,target=/var/cache/apt \
 --mount=type=cache,target=/tmp/packages \
-mv /etc/apt/apt.conf.d/docker-clean / \
-&& yes | unminimize \
-&& ZSHCONFIGDEB=tksst-zsh-config_1.0.0-1_all.deb \
-&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-language-pack-ja \
-git \
-lsof \
-vim \
-less \
-strace \
-jq \
-gnupg2 \
-zsh \
-zsh-autosuggestions \
-zsh-syntax-highlighting \
-openssh-client \
-curl \
-wget \
-man \
-manpages \
-sudo \
-openssl \
-unzip \
-tzdata \
-ca-certificates \
-file \
-bind9-dnsutils \
-iputils-ping \
-bzip2 \
-xz-utils \
-zstd \
-uuid-runtime \
-rsync \
-apt-file \
-nano \
-iproute2 \
-socat \
-&& cd /tmp/packages \
-&& wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}" \
-&& apt-get install -y ./${ZSHCONFIGDEB} \
-&& mv /docker-clean /etc/apt/apt.conf.d/
+<<_EOFEOF_
+    set -eu
+    mv /etc/apt/apt.conf.d/docker-clean /
+    yes | unminimize
+    ZSHCONFIGDEB=tksst-zsh-config_1.0.0-1_all.deb
+
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    language-pack-ja \
+    git \
+    lsof \
+    vim \
+    less \
+    strace \
+    jq \
+    gnupg2 \
+    zsh \
+    zsh-autosuggestions \
+    zsh-syntax-highlighting \
+    openssh-client \
+    curl \
+    wget \
+    man \
+    manpages \
+    sudo \
+    openssl \
+    unzip \
+    tzdata \
+    ca-certificates \
+    file \
+    bind9-dnsutils \
+    iputils-ping \
+    bzip2 \
+    xz-utils \
+    zstd \
+    uuid-runtime \
+    rsync \
+    apt-file \
+    nano \
+    iproute2 \
+    socat \
+
+    cd /tmp/packages
+    wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}"
+    apt-get install -y ./${ZSHCONFIGDEB}
+    mv /docker-clean /etc/apt/apt.conf.d/
+_EOFEOF_
 
 # AWS CLI
 # FIXME: amd64 specific
 RUN \
 --mount=type=cache,target=/tmp/packages \
 --mount=type=tmpfs,target=/tmp/tmp \
-cd /tmp/packages \
-&& wget -N "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
-&& cd /tmp/tmp \
-&& unzip -q /tmp/packages/awscli-exe-linux-x86_64.zip \
-&& ./aws/install
+<<_EOFEOF_
+    set -eu
+    cd /tmp/packages
+    wget -N "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    cd /tmp/tmp
+    unzip -q /tmp/packages/awscli-exe-linux-x86_64.zip
+    ./aws/install
+_EOFEOF_
 
 # 日本時間
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
