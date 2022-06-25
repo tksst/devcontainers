@@ -7,17 +7,20 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh
 
 ARG NPM_VER=8.13.1
 
-FROM nvm AS v16
-ARG NODE16_VER=16.15.1
+FROM nvm AS v12
+ARG NODE12_VER=12.22.12
 
+# corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
+# https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
 RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
-    nvm install ${NODE16_VER}
+    nvm install ${NODE12_VER}
+    npm install -g corepack@0.10.0
     npm uninstall -g npm
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
-    npm install -g npm-check-updates
+    npm install -g npm-check-updates@12.2.0
 _EOFEOF_
 
 FROM nvm AS v14
@@ -27,6 +30,19 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install ${NODE14_VER}
+    npm uninstall -g npm
+    corepack enable npm yarn pnpm
+    corepack prepare --activate npm@${NPM_VER}
+    npm install -g npm-check-updates
+_EOFEOF_
+
+FROM nvm AS v16
+ARG NODE16_VER=16.15.1
+
+RUN <<_EOFEOF_ zsh
+    set -eu
+    . $HOME/.nvm/nvm.sh
+    nvm install ${NODE16_VER}
     npm uninstall -g npm
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
@@ -45,24 +61,6 @@ RUN <<_EOFEOF_ zsh
     corepack prepare --activate npm@${NPM_VER}
     npm install -g npm-check-updates
 _EOFEOF_
-
-FROM nvm AS v12
-ARG NODE12_VER=12.22.12
-
-# corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
-# https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
-RUN <<_EOFEOF_ zsh
-    set -eu
-    . $HOME/.nvm/nvm.sh
-    nvm install ${NODE12_VER}
-    npm install -g corepack@0.10.0
-    npm uninstall -g npm
-    corepack enable npm yarn pnpm
-    corepack prepare --activate npm@${NPM_VER}
-    npm install -g npm-check-updates@12.2.0
-_EOFEOF_
-
-FROM v18
 
 COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
 # v12はcorepackのインストールを伴うため時間がかかるはずなので、2番目にする
