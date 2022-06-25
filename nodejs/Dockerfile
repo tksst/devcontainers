@@ -60,6 +60,7 @@ RUN <<_EOFEOF_ zsh
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
     npm install -g npm-check-updates
+    rm -rf ~/.npm
 _EOFEOF_
 
 COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
