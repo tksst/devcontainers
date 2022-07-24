@@ -30,6 +30,10 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install ${NODE14_VER}
+    # Upgrade npm to use for corepack updates (although it will be turned off soon)
+    npm install -g npm@${NPM_VER}
+    # Upgrade corepack
+    npm install -g corepack
     npm uninstall -g npm
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
@@ -43,6 +47,8 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install ${NODE16_VER}
+    # Upgrade corepack
+    npm install -g corepack
     npm uninstall -g npm
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
@@ -56,6 +62,8 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install ${NODE18_VER}
+    # Upgrade corepack
+    npm install -g corepack
     npm uninstall -g npm
     corepack enable npm yarn pnpm
     corepack prepare --activate npm@${NPM_VER}
