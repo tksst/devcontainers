@@ -6,9 +6,9 @@ FROM ubuntu:jammy-20220531
 # so disabled temporarily
 
 RUN \
---mount=type=cache,target=/var/lib/apt/lists \
---mount=type=cache,target=/var/cache/apt \
---mount=type=cache,target=/tmp/packages \
+--mount=type=tmpfs,target=/var/lib/apt/lists \
+--mount=type=tmpfs,target=/var/cache/apt \
+--mount=type=tmpfs,target=/tmp/packages \
 <<_EOFEOF_
     set -eu
     mv /etc/apt/apt.conf.d/docker-clean /
@@ -58,7 +58,7 @@ _EOFEOF_
 
 # AWS CLI
 RUN \
---mount=type=cache,target=/tmp/packages \
+--mount=type=tmpfs,target=/tmp/packages \
 --mount=type=tmpfs,target=/tmp/tmp \
 <<_EOFEOF_
     set -eu
