@@ -5,7 +5,7 @@ ARG NVM_VER=0.39.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 
-ARG NPM_VER=8.15.0
+ARG NPM_VER=8.17.0
 
 FROM nvm AS v12
 ARG NODE12_VER=12.22.12
@@ -56,7 +56,7 @@ RUN <<_EOFEOF_ zsh
 _EOFEOF_
 
 FROM nvm AS v18
-ARG NODE18_VER=18.6.0
+ARG NODE18_VER=18.7.0
 
 RUN <<_EOFEOF_ zsh
     set -eu
