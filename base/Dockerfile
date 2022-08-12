@@ -49,6 +49,7 @@ RUN \
     nano \
     iproute2 \
     socat \
+    sysstat \
 
     cd /tmp/packages
     wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}"
