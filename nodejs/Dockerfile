@@ -17,7 +17,7 @@ RUN <<_EOFEOF_ zsh
     npm uninstall -g npm
     # Enable corepack itself and also enable npm
     corepack enable npm
-    npm install -g npm-check-updates@12.2.0
+    npm install -g npm-check-updates@12.2.0 0x
 _EOFEOF_
 
 FROM nvm AS v14
@@ -33,7 +33,7 @@ RUN <<_EOFEOF_ zsh
     npm uninstall -g npm
     # Enable corepack itself and also enable npm
     corepack enable npm
-    npm install -g npm-check-updates
+    npm install -g npm-check-updates 0x
 _EOFEOF_
 
 FROM nvm AS v16
@@ -47,7 +47,7 @@ RUN <<_EOFEOF_ zsh
     npm uninstall -g npm
     # Enable corepack itself and also enable npm
     corepack enable npm
-    npm install -g npm-check-updates
+    npm install -g npm-check-updates 0x
 _EOFEOF_
 
 FROM nvm AS v18
@@ -61,7 +61,7 @@ RUN <<_EOFEOF_ zsh
     npm uninstall -g npm
     # Enable corepack itself and also enable npm
     corepack enable npm
-    npm install -g npm-check-updates
+    npm install -g npm-check-updates 0x
     rm -rf ~/.npm
 _EOFEOF_
 
