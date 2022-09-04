@@ -5,68 +5,62 @@ ARG NVM_VER=0.39.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 
-ARG NPM_VER=8.17.0
-
 FROM nvm AS v12
-ARG NODE12_VER=12.22.12
 
 # corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
 # https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
 RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
-    nvm install ${NODE12_VER}
+    nvm install 12
     npm install -g corepack@0.10.0
     npm uninstall -g npm
-    corepack enable npm yarn pnpm
-    corepack prepare --activate npm@${NPM_VER}
+    # Enable corepack itself and also enable npm
+    corepack enable npm
     npm install -g npm-check-updates@12.2.0
 _EOFEOF_
 
 FROM nvm AS v14
-ARG NODE14_VER=14.20.0
 
 RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
-    nvm install ${NODE14_VER}
+    nvm install 14
     # Upgrade npm to use for corepack updates (although it will be turned off soon)
-    npm install -g npm@${NPM_VER}
+    npm install -g npm
     # Upgrade corepack
     npm install -g corepack
     npm uninstall -g npm
-    corepack enable npm yarn pnpm
-    corepack prepare --activate npm@${NPM_VER}
+    # Enable corepack itself and also enable npm
+    corepack enable npm
     npm install -g npm-check-updates
 _EOFEOF_
 
 FROM nvm AS v16
-ARG NODE16_VER=16.16.0
 
 RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
-    nvm install ${NODE16_VER}
+    nvm install 16
     # Upgrade corepack
     npm install -g corepack
     npm uninstall -g npm
-    corepack enable npm yarn pnpm
-    corepack prepare --activate npm@${NPM_VER}
+    # Enable corepack itself and also enable npm
+    corepack enable npm
     npm install -g npm-check-updates
 _EOFEOF_
 
 FROM nvm AS v18
-ARG NODE18_VER=18.7.0
 
 RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
-    nvm install ${NODE18_VER}
+    nvm install 18
     # Upgrade corepack
     npm install -g corepack
     npm uninstall -g npm
-    corepack enable npm yarn pnpm
-    corepack prepare --activate npm@${NPM_VER}
+    # Enable corepack itself and also enable npm
+    corepack enable npm
     npm install -g npm-check-updates
     rm -rf ~/.npm
 _EOFEOF_
