@@ -63,6 +63,9 @@ RUN <<_EOFEOF_ zsh
     corepack enable npm
     npm install -g npm-check-updates 0x
     rm -rf ~/.npm
+    # install autocompletion
+    # This also installs current latest pnpm by corepack
+    pnpm install-completion zsh
 _EOFEOF_
 
 COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
