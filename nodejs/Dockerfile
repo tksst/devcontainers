@@ -15,6 +15,7 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install 12
+    rm -rf ~/.nvm/.cache/
     npm install -g corepack@0.10.0
     npm uninstall -g npm
     # Enable corepack itself and also enable npm
@@ -28,6 +29,7 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install 14
+    rm -rf ~/.nvm/.cache/
     # Upgrade npm to use for corepack updates (although it will be turned off soon)
     npm install -g npm
     # Upgrade corepack
@@ -44,6 +46,7 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install 16
+    rm -rf ~/.nvm/.cache/
     # Upgrade corepack
     npm install -g corepack
     npm uninstall -g npm
@@ -58,6 +61,7 @@ RUN <<_EOFEOF_ zsh
     set -eu
     . $HOME/.nvm/nvm.sh
     nvm install 18
+    rm -rf ~/.nvm/.cache/
     # Upgrade corepack
     npm install -g corepack
     npm uninstall -g npm
