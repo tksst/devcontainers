@@ -5,6 +5,8 @@ ARG NVM_VER=0.39.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 
+# To reduce build time for a container image, separate build stages for each Node.js version and integrate them at the end.
+
 FROM nvm AS v12
 
 # corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
@@ -50,7 +52,7 @@ RUN <<_EOFEOF_ zsh
     npm install -g npm-check-updates 0x
 _EOFEOF_
 
-FROM nvm AS v18
+FROM nvm
 
 RUN <<_EOFEOF_ zsh
     set -eu
