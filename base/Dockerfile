@@ -86,6 +86,9 @@ RUN echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USER}
 USER ${USER}
 RUN echo "source /opt/tksst/zsh/zshrc_tksst" >> /home/${USER}/.zshrc
 
+# AWS CLI completion
+RUN echo "autoload -Uz bashcompinit && bashcompinit && complete -C '/usr/local/bin/aws_completer' aws" >> /home/${USER}/.zshrc
+
 ENV LANG=ja_JP.UTF-8
 WORKDIR /home/${USER}
 CMD [ "zsh" ]
