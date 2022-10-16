@@ -15,6 +15,14 @@ RUN \
     yes | unminimize
     ZSHCONFIGDEB=tksst-zsh-config_1.0.0-1_all.deb
 
+    # set up docker client repository
+    apt-get install -y lsb-release curl gnupg2
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+    apt-get update
+
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     language-pack-ja \
     git \
@@ -51,6 +59,10 @@ RUN \
     socat \
     sysstat \
 
+    # install docker client from docker-ce
+    DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce-cli docker-compose-plugin
+
+    # install my zsh config
     cd /tmp/packages
     wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.0.0/${ZSHCONFIGDEB}"
     apt-get install -y ./${ZSHCONFIGDEB}
