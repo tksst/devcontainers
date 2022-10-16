@@ -15,6 +15,10 @@ RUN \
     yes | unminimize
     ZSHCONFIGDEB=tksst-zsh-config_1.0.0-1_all.deb
 
+    # set up the latest stable upstream Git repository
+    apt-get install -y software-properties-common
+    add-apt-repository -y ppa:git-core/ppa
+
     # set up docker client repository
     apt-get install -y lsb-release curl gnupg2
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
