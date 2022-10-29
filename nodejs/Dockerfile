@@ -55,7 +55,7 @@ RUN <<_EOFEOF_ zsh
     npm install -g npm-check-updates 0x
 _EOFEOF_
 
-FROM nvm
+FROM nvm AS v18
 
 RUN <<_EOFEOF_ zsh
     set -eu
@@ -68,14 +68,20 @@ RUN <<_EOFEOF_ zsh
     # Enable corepack itself and also enable npm
     corepack enable npm
     npm install -g npm-check-updates 0x
-    rm -rf ~/.npm
+_EOFEOF_
+
+FROM nvm
+
+COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
+COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
+# v12はcorepackのインストールを伴うため時間がかかるはずなので、最後から2番目にする
+COPY --from=v12 /home/user/.nvm/ /home/user/.nvm/
+# v16をデフォルトにするため、最後にコピー
+COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
+
+RUN <<_EOFEOF_ zsh
+    source ~/.nvm/nvm.sh
     # install autocompletion
     # This also installs current latest pnpm by corepack
     pnpm install-completion zsh
 _EOFEOF_
-
-COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
-# v12はcorepackのインストールを伴うため時間がかかるはずなので、2番目にする
-COPY --from=v12 /home/user/.nvm/ /home/user/.nvm/
-# v16をデフォルトにするため、最後にコピー
-COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
