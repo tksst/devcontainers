@@ -73,11 +73,11 @@ _EOFEOF_
 FROM nvm
 
 COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
-COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
+COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
 # v12はcorepackのインストールを伴うため時間がかかるはずなので、最後から2番目にする
 COPY --from=v12 /home/user/.nvm/ /home/user/.nvm/
-# v16をデフォルトにするため、最後にコピー
-COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
+# v18をデフォルトにするため、最後にコピー
+COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
 
 RUN <<_EOFEOF_ zsh
     source ~/.nvm/nvm.sh
