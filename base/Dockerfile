@@ -60,6 +60,7 @@ RUN \
     iproute2 \
     socat \
     sysstat \
+    shellcheck \
 
     # install docker client from docker-ce
     DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce-cli docker-compose-plugin
@@ -83,6 +84,14 @@ RUN \
     cd /tmp/tmp
     unzip -q "/tmp/packages/${file}"
     ./aws/install
+_EOFEOF_
+
+# actionlint
+RUN <<_EOFEOF_
+    set -eu
+    cd /usr/local/bin
+    ACTIONLINT_SCRIPT_REVISION=56b0b2eaf36e5d8d2fe5a9c04bc88309d345fe3f # A little newer than version 1.6.21
+    curl https://raw.githubusercontent.com/rhysd/actionlint/${ACTIONLINT_SCRIPT_REVISION}/scripts/download-actionlint.bash | bash
 _EOFEOF_
 
 # 日本時間
