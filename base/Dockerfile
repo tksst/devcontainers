@@ -23,6 +23,11 @@ RUN \
     apt-get install -y lsb-release curl
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg > /etc/apt/keyrings/docker.asc
     echo "deb [signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+
+    # set up the GitHub CLI repository
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg > /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list
+
     apt-get update
 
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -64,6 +69,9 @@ RUN \
 
     # install docker client from docker-ce
     DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce-cli docker-compose-plugin
+
+    # install GitHub CLI
+    DEBIAN_FRONTEND=noninteractive apt-get -y install gh
 
     # install my zsh config
     cd /tmp/packages
