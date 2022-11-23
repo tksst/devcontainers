@@ -98,7 +98,7 @@ _EOFEOF_
 RUN <<_EOFEOF_
     set -eu
     cd /usr/local/bin
-    ACTIONLINT_SCRIPT_REVISION=56b0b2eaf36e5d8d2fe5a9c04bc88309d345fe3f # A little newer than version 1.6.21
+    ACTIONLINT_SCRIPT_REVISION=be5e98b70d553cf24eb38ff0ecb54f3a9f23c57f # A little newer than version 1.6.22
     curl https://raw.githubusercontent.com/rhysd/actionlint/${ACTIONLINT_SCRIPT_REVISION}/scripts/download-actionlint.bash | bash
 _EOFEOF_
 
