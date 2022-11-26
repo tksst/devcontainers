@@ -72,6 +72,7 @@ RUN \
 
     # install GitHub CLI
     DEBIAN_FRONTEND=noninteractive apt-get -y install gh
+    gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
 
     # install my zsh config
     cd /tmp/packages
