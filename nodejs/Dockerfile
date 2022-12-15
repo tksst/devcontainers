@@ -11,64 +11,24 @@ FROM nvm AS v12
 
 # corepackはこのコミット以後、Node.js 12では動作しない模様なので、バージョン固定する
 # https://github.com/nodejs/corepack/commit/6c736c3950a8206e8f081bde477574f908df174f
-RUN <<_EOFEOF_ zsh
-    set -eu
-    . $HOME/.nvm/nvm.sh
-    nvm install 12
-    rm -rf ~/.nvm/.cache/
-    npm install -g corepack@0.10.0
-    npm uninstall -g npm
-    # Enable corepack itself and also enable npm
-    corepack enable npm
-    npm install -g npm-check-updates@12.2.0 0x
-_EOFEOF_
+
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=12 COREPACK_VERSION=@0.10.0 NCU_VERSION=@12.2.0 /tmp/setup.bash
 
 FROM nvm AS v14
 
-RUN <<_EOFEOF_ zsh
-    set -eu
-    . $HOME/.nvm/nvm.sh
-    nvm install 14
-    rm -rf ~/.nvm/.cache/
-    # Upgrade npm to use for corepack updates (although it will be turned off soon)
-    npm install -g npm
-    # Upgrade corepack
-    npm install -g corepack
-    npm uninstall -g npm
-    # Enable corepack itself and also enable npm
-    corepack enable npm
-    npm install -g npm-check-updates 0x
-_EOFEOF_
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=14 /tmp/setup.bash
 
 FROM nvm AS v16
 
-RUN <<_EOFEOF_ zsh
-    set -eu
-    . $HOME/.nvm/nvm.sh
-    nvm install 16
-    rm -rf ~/.nvm/.cache/
-    # Upgrade corepack
-    npm install -g corepack
-    npm uninstall -g npm
-    # Enable corepack itself and also enable npm
-    corepack enable npm
-    npm install -g npm-check-updates 0x
-_EOFEOF_
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=16 /tmp/setup.bash
 
 FROM nvm AS v18
 
-RUN <<_EOFEOF_ zsh
-    set -eu
-    . $HOME/.nvm/nvm.sh
-    nvm install 18
-    rm -rf ~/.nvm/.cache/
-    # Upgrade corepack
-    npm install -g corepack
-    npm uninstall -g npm
-    # Enable corepack itself and also enable npm
-    corepack enable npm
-    npm install -g npm-check-updates 0x
-_EOFEOF_
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=18 /tmp/setup.bash
 
 FROM nvm
 
