@@ -116,7 +116,15 @@ RUN useradd -m -s /usr/bin/zsh ${USER}
 RUN echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USER}
 
 USER ${USER}
-RUN echo "source /opt/tksst/zsh/zshrc_tksst" >> /home/${USER}/.zshrc
+
+RUN <<_EOFEOF_
+    persistent_dir=/home/${USER}/persistent
+    mkdir -p $persistent_dir
+    {
+        echo "source /opt/tksst/zsh/zshrc_tksst"
+        echo "export HISTFILE=${persistent_dir}/.zsh_history"
+    } >> /home/${USER}/.zshrc
+_EOFEOF_
 
 # AWS CLI completion
 RUN echo "autoload -Uz bashcompinit && bashcompinit && complete -C '/usr/local/bin/aws_completer' aws" >> /home/${USER}/.zshrc
@@ -124,5 +132,3 @@ RUN echo "autoload -Uz bashcompinit && bashcompinit && complete -C '/usr/local/b
 ENV LANG=ja_JP.UTF-8
 WORKDIR /home/${USER}
 CMD [ "zsh" ]
-
-
