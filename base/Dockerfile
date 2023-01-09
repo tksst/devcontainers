@@ -13,7 +13,7 @@ RUN \
     set -eu
     mv /etc/apt/apt.conf.d/docker-clean /
     yes | unminimize
-    ZSHCONFIGDEB=tksst-zsh-config_1.1.1-1_all.deb
+    ZSHCONFIGDEB=tksst-zsh-config_1.2.0-1_all.deb 
 
     # set up the latest stable upstream Git repository
     apt-get install -y software-properties-common
@@ -76,7 +76,7 @@ RUN \
 
     # install my zsh config
     cd /tmp/packages
-    wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.1.1/${ZSHCONFIGDEB}"
+    wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.2.0/${ZSHCONFIGDEB}"
     apt-get install -y ./${ZSHCONFIGDEB}
     mv /docker-clean /etc/apt/apt.conf.d/
 _EOFEOF_
