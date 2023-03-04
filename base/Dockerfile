@@ -1,15 +1,16 @@
 # syntax=docker/dockerfile:1.4.1
 
-FROM ubuntu:jammy-20230126
+# jammy-20230301
+FROM ubuntu@sha256:2adf22367284330af9f832ffefb717c78239f6251d9d0f58de50b86229ed1427
 
 # /etc/apt/apt.conf.d/docker-clean disables /var/cache/apt/archives caching
 # so disabled temporarily
 
 RUN \
---mount=type=tmpfs,target=/var/lib/apt/lists \
---mount=type=tmpfs,target=/var/cache/apt \
---mount=type=tmpfs,target=/tmp/packages \
-<<_EOFEOF_
+    --mount=type=tmpfs,target=/var/lib/apt/lists \
+    --mount=type=tmpfs,target=/var/cache/apt \
+    --mount=type=tmpfs,target=/tmp/packages \
+    <<_EOFEOF_
     set -eu
     mv /etc/apt/apt.conf.d/docker-clean /
     yes | unminimize
@@ -83,9 +84,9 @@ _EOFEOF_
 
 # AWS CLI
 RUN \
---mount=type=tmpfs,target=/tmp/packages \
---mount=type=tmpfs,target=/tmp/tmp \
-<<_EOFEOF_
+    --mount=type=tmpfs,target=/tmp/packages \
+    --mount=type=tmpfs,target=/tmp/tmp \
+    <<_EOFEOF_
     set -eu
     file=awscli-exe-linux-$(arch).zip
     cd /tmp/packages
