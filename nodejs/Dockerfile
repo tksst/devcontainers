@@ -30,10 +30,16 @@ FROM nvm AS v18
 COPY ./setup.bash /tmp/setup.bash
 RUN NODE_VERSION=18 /tmp/setup.bash
 
+FROM nvm AS v20
+
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=20 /tmp/setup.bash
+
 FROM nvm
 
 COPY --from=v14 /home/user/.nvm/ /home/user/.nvm/
 COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
+COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 # v12はcorepackのインストールを伴うため時間がかかるはずなので、最後から2番目にする
 COPY --from=v12 /home/user/.nvm/ /home/user/.nvm/
 # v18をデフォルトにするため、最後にコピー
