@@ -1,0 +1,16 @@
+# the fastest mirror for me
+http://ftp.riken.jp/Linux/ubuntu/	priority:2
+
+# the second fallbacks
+http://ubuntutym.u-toyama.ac.jp/ubuntu/	priority:3
+http://www.ftp.ne.jp/Linux/packages/ubuntu/archive/	priority:3
+http://ftp.yz.yamagata-u.ac.jp/pub/linux/ubuntu/archives/	priority:3
+
+# final fallback to default
+http://archive.ubuntu.com/ubuntu/
+
+# AWS Tokyo Region
+# http://ap-northeast-1.ec2.archive.ubuntu.com/ubuntu/	priority:1
+
+# for Azure
+# http://azure.archive.ubuntu.com/ubuntu/	priority:1
