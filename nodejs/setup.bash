@@ -25,4 +25,4 @@ corepack enable npm
 # avoid corepack + npm >= 9.7.0 bug
 corepack prepare --activate npm@9.6.7
 
-npm install -g "npm-check-updates${NCU_VERSION-}" 0x
+npm install -g "npm-check-updates${NCU_VERSION-}"
