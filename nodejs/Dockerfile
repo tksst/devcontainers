@@ -29,10 +29,6 @@ COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 # v18をデフォルトにするため、最後にコピー
 COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
 
-# avoid corepack + npm >= 9.7.0 bug
-RUN mkdir -p /home/user/.cache/node/corepack/
-COPY --from=v18 /home/user/.cache/node/corepack/ /home/user/.cache/node/corepack/
-
 RUN <<_EOFEOF_ zsh
     source ~/.nvm/nvm.sh
     # install autocompletion
