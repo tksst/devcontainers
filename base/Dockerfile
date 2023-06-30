@@ -130,6 +130,14 @@ _EOFEOF_
 # AWS CLI completion
 RUN echo "autoload -Uz bashcompinit && bashcompinit && complete -C '/usr/local/bin/aws_completer' aws" >> /home/${USER}/.zshrc
 
+# SSH ControlMaster
+ARG SSH_CONTROL_PERSIST=30m
+COPY --chown=${USER} <<_EOFEOF_ /home/${USER}/.ssh/config
+ControlMaster auto
+ControlPath ~/.ssh/mux-%r@%h:%p
+ControlPersist ${SSH_CONTROL_PERSIST}
+_EOFEOF_
+
 ENV LANG=ja_JP.UTF-8
 WORKDIR /home/${USER}
 CMD [ "zsh" ]
