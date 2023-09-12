@@ -7,11 +7,6 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh
 
 # To reduce build time for a container image, separate build stages for each Node.js version and integrate them at the end.
 
-FROM nvm AS v16
-
-COPY ./setup.bash /tmp/setup.bash
-RUN NODE_VERSION=16 /tmp/setup.bash
-
 FROM nvm AS v18
 
 COPY ./setup.bash /tmp/setup.bash
@@ -24,7 +19,6 @@ RUN NODE_VERSION=20 /tmp/setup.bash
 
 FROM nvm
 
-COPY --from=v16 /home/user/.nvm/ /home/user/.nvm/
 COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 # v18をデフォルトにするため、最後にコピー
 COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
