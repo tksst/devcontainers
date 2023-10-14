@@ -136,7 +136,7 @@ COPY --chown=${USER} <<_EOFEOF_ /home/${USER}/.ssh/config
 ControlMaster auto
 ControlPath ~/.ssh/mux-%r@%h:%p
 ControlPersist ${SSH_CONTROL_PERSIST}
-ServerAliveInterval 598
+ServerAliveInterval 295
 ServerAliveCountMax 6
 _EOFEOF_
 
