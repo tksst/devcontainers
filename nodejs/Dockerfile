@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4.1
+# syntax=docker/dockerfile:1.6.0@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
 FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-65e439a-20231014T092956Z AS nvm
 
 ARG NVM_VER=0.39.5
