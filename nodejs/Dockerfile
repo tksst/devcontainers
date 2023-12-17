@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4.1
 FROM ghcr.io/tksst/devcontainers/devcontainer-base:sha-074324c-20231217T091344Z AS nvm
 
-ARG NVM_VER=0.39.5
+ARG NVM_VER=0.39.7
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
 
