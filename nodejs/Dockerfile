@@ -43,8 +43,9 @@ RUN <<_EOFEOF_ zsh
     if [[ $(arch) == "x86_64" ]]; then
         curl -fsSL https://deno.land/x/install/install.sh | sh
         {
+            echo '# Deno'
             echo 'export DENO_INSTALL="/home/user/.deno"'
-            echo 'export PATH="$DENO_INSTALL/bin:$PATH"'
+            echo 'export PATH="\$DENO_INSTALL/bin:\$PATH"'
         } >> ~/.zshrc
     fi
 _EOFEOF_
