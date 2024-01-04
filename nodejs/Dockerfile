@@ -24,8 +24,23 @@ COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
 COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 
 RUN <<_EOFEOF_ zsh
+
+    set -eu
+    set -o pipefail
+
+    ## pnpm autocompletion
     source ~/.nvm/nvm.sh
     # install autocompletion
     # This also installs current latest pnpm by corepack
     pnpm install-completion zsh
+
+    ## Bun
+    curl -fsSL https://bun.sh/install | bash
+
+    ## Deno
+    curl -fsSL https://deno.land/x/install/install.sh | sh
+    {
+        echo 'export DENO_INSTALL="/home/user/.deno"'
+        echo 'export PATH="$DENO_INSTALL/bin:$PATH"'
+    } >> ~/.zshrc
 _EOFEOF_
