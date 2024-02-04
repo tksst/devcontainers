@@ -21,5 +21,3 @@ npm install -g "corepack${COREPACK_VERSION-}"
 npm uninstall -g npm
 # Enable corepack
 corepack enable npm
-
-npm install -g "npm-check-updates${NCU_VERSION-}"

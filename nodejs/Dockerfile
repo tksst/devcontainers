@@ -11,11 +11,15 @@ FROM nvm AS v18
 
 COPY ./setup.bash /tmp/setup.bash
 RUN NODE_VERSION=18 /tmp/setup.bash
+COPY ./setup-ncu.bash /tmp/
+RUN NODE_VERSION=18 /tmp/setup-ncu.bash
 
 FROM nvm AS v20
 
 COPY ./setup.bash /tmp/setup.bash
 RUN NODE_VERSION=20 /tmp/setup.bash
+COPY ./setup-ncu.bash /tmp/
+RUN NODE_VERSION=20 /tmp/setup-ncu.bash
 
 FROM nvm
 
