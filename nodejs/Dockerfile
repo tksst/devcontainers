@@ -42,14 +42,10 @@ RUN <<_EOFEOF_ zsh
     curl -fsSL https://bun.sh/install | bash
 
     ## Deno
-    # Deno Official Deno builds for Linux aarch64 are not available. (see: https://github.com/denoland/deno/issues/1846 )
-    # So only install it for x86_64
-    if [[ $(arch) == "x86_64" ]]; then
-        curl -fsSL https://deno.land/x/install/install.sh | sh
-        {
-            echo '# Deno'
-            echo 'export DENO_INSTALL="/home/user/.deno"'
-            echo 'export PATH="\$DENO_INSTALL/bin:\$PATH"'
-        } >> ~/.zshrc
-    fi
+    curl -fsSL https://deno.land/x/install/install.sh | sh
+    {
+        echo '# Deno'
+        echo 'export DENO_INSTALL="/home/user/.deno"'
+        echo 'export PATH="\$DENO_INSTALL/bin:\$PATH"'
+    } >> ~/.zshrc
 _EOFEOF_
