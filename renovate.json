@@ -1,4 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>tksst/renovate-config"]
+  "extends": ["github>tksst/renovate-config"],
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["ubuntu"],
+      "matchDepTypes": ["final"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["ghcr.io/tksst/devcontainers/devcontainer-base"],
+      "matchDepTypes": ["final"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    }
+  ]
 }
