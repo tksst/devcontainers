@@ -1,6 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>tksst/renovate-config"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch" : ["Dockerfile"],
+      "matchStrings" : [
+        "\\nARG NVM_VER=(?<currentValue>.*?)\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "nvm-sh/nvm"
+    }
+  ],
   "packageRules": [
     {
       "matchManagers": ["dockerfile"],

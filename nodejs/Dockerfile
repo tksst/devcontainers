@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.4.1
 FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:b11235ee226c9dcc411df7e5742e3b5f14a5a415247be3368d7118d3c347fb52 AS nvm
 
-ARG NVM_VER=0.39.7
+ARG NVM_VER=v0.39.7
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VER}/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VER}/install.sh | bash
 
 # To reduce build time for a container image, separate build stages for each Node.js version and integrate them at the end.
 
