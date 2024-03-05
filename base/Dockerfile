@@ -6,8 +6,8 @@ FROM ubuntu:jammy@sha256:f9d633ff6640178c2d0525017174a688e2c1aef28f0a0130b26bd55
 # so disabled temporarily
 
 RUN \
-    --mount=type=tmpfs,target=/var/lib/apt/lists \
-    --mount=type=tmpfs,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt/lists \
+    --mount=type=cache,target=/var/cache/apt \
     --mount=type=tmpfs,target=/tmp/packages \
     <<_EOFEOF_
     set -eu
