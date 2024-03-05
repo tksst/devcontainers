@@ -3,7 +3,7 @@ FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:7ce8d2e557b1b5a2a
 
 ARG NVM_VER=v0.39.7
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VER}/install.sh | bash
+RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VER}/install.sh | bash
 
 # To reduce build time for a container image, separate build stages for each Node.js version and integrate them at the end.
 
@@ -23,7 +23,7 @@ COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
 # v20をデフォルトにするため、最後にコピー
 COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 
-RUN <<_EOFEOF_ zsh
+RUN <<'_EOFEOF_' zsh
 
     set -eu
     set -o pipefail

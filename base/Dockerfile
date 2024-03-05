@@ -9,10 +9,16 @@ RUN \
     --mount=type=cache,target=/var/lib/apt/lists \
     --mount=type=cache,target=/var/cache/apt \
     --mount=type=tmpfs,target=/tmp/packages \
-    <<_EOFEOF_
+    <<'_EOFEOF_' bash
+    
     set -eu
+    set -o posix
+
     mv /etc/apt/apt.conf.d/docker-clean /
     yes | unminimize
+
+    set -o pipefail
+
     ZSHCONFIGDEB=tksst-zsh-config_1.2.0-1_all.deb 
 
     # set up the latest stable upstream Git repository
@@ -76,7 +82,7 @@ RUN \
 
     # install my zsh config
     cd /tmp/packages
-    wget -q -N "https://github.com/tksst/zsh-config/releases/download/v1.2.0/${ZSHCONFIGDEB}"
+    wget --no-verbose -N "https://github.com/tksst/zsh-config/releases/download/v1.2.0/${ZSHCONFIGDEB}"
     apt-get install -y ./${ZSHCONFIGDEB}
     mv /docker-clean /etc/apt/apt.conf.d/
 _EOFEOF_
@@ -98,18 +104,22 @@ RUN \
 
     file=awscli-exe-linux-$(arch).zip
     cd /tmp/packages
-    wget -N "https://awscli.amazonaws.com/${file}"
+    wget --no-verbose -N "https://awscli.amazonaws.com/${file}"
     cd /tmp/tmp
     unzip -q "/tmp/packages/${file}"
     ./aws/install
 _EOFEOF_
 
 # actionlint
-RUN <<_EOFEOF_
+RUN <<'_EOFEOF_' bash
+
     set -eu
+    set -o pipefail
+    set -o posix
+
     cd /usr/local/bin
     ACTIONLINT_SCRIPT_REVISION=d0dbdb7f1fd55f2c2b0a0e8243ba6ae2100bb02f # A little newer than version 1.6.26
-    curl https://raw.githubusercontent.com/rhysd/actionlint/${ACTIONLINT_SCRIPT_REVISION}/scripts/download-actionlint.bash | bash
+    curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/${ACTIONLINT_SCRIPT_REVISION}/scripts/download-actionlint.bash | bash
 _EOFEOF_
 
 # 日本時間
@@ -127,7 +137,11 @@ RUN echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USER}
 
 USER ${USER}
 
-RUN <<_EOFEOF_
+RUN <<'_EOFEOF_' bash
+    set -eu
+    set -o pipefail
+    set -o posix
+
     persistent_dir=/home/${USER}/persistent
     mkdir -p $persistent_dir
     {

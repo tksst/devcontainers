@@ -2,6 +2,8 @@
 
 set -e
 set -u
+set -o pipefail
+set -o posix
 
 . "$HOME/.nvm/nvm.sh"
 nvm install "$NODE_VERSION"
