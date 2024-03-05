@@ -17,6 +17,7 @@ jobs:
   build-and-push:
     name: Build and Push devcontainer-nodejs
     permissions:
+      actions: read
       contents: read
       packages: write
       # This is used to complete the identity challenge
