@@ -17,10 +17,36 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}/${{ inputs.image-name }}
-  PUSH: ${{ github.event_name != 'pull_request' && ( github.ref_name == github.event.repository.default_branch || github.ref_type == 'tag' ) }}
 
 jobs:
+  meta-data:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    outputs:
+      tags: ${{ steps.docker-metadata.outputs.tags }}
+      labels: ${{ steps.docker-metadata.outputs.labels }}
+      # デフォルトブランチかタグの時のみPUSHする
+      push: ${{ github.event_name != 'pull_request' && ( github.ref_name == github.event.repository.default_branch || github.ref_type == 'tag' ) }}
+
+    steps:
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: docker-metadata
+        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ github.event.repository.default_branch }},enable={{is_default_branch}}
+            type=ref,priority=100,event=tag
+            type=sha,priority=400,format=short
+            type=sha,priority=500,format=short,suffix=-{{date 'YYYYMMDDTHHmmss[Z]'}}
+
   build-push:
+    needs:
+      - meta-data
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,26 +68,12 @@ jobs:
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
-        if: env.PUSH == 'true'
+        if: needs.meta-data.outputs.push == 'true'
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=${{ github.event.repository.default_branch }},enable={{is_default_branch}}
-            type=ref,priority=100,event=tag
-            type=sha,priority=400,format=short
-            type=sha,priority=500,format=short,suffix=-{{date 'YYYYMMDDTHHmmss[Z]'}}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -71,9 +83,9 @@ jobs:
         with:
           context: ./${{ inputs.context-directory }}
           platforms: linux/amd64,linux/arm64/v8
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          outputs: ${{ env.PUSH == 'true' && 'type=registry' || 'type=oci,dest=/tmp/image.tar' }}
+          tags: ${{ needs.meta-data.outputs.tags }}
+          labels: ${{ needs.meta-data.outputs.labels }}
+          outputs: ${{ needs.meta-data.outputs.push == 'true' && 'type=registry' || 'type=oci,dest=/tmp/image.tar' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
