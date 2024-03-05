@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>tksst/renovate-config"],
+  "extends": ["github>tksst/renovate-config", "schedule:automergeDaily"],
   "customManagers": [
     {
       "customType": "regex",
