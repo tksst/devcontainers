@@ -85,8 +85,17 @@ _EOFEOF_
 RUN \
     --mount=type=tmpfs,target=/tmp/packages \
     --mount=type=tmpfs,target=/tmp/tmp \
-    <<_EOFEOF_
+    <<'_EOFEOF_' bash
+
     set -eu
+    set -o pipefail
+    set -o posix
+
+    if [[ $(arch) != "x86_64" && $(arch) != "aarch64" ]]; then
+        echo "Unsupported architecture of AWS CLI Installer: $(arch)"
+        exit 0
+    fi
+
     file=awscli-exe-linux-$(arch).zip
     cd /tmp/packages
     wget -N "https://awscli.amazonaws.com/${file}"
