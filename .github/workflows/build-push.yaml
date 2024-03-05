@@ -28,6 +28,7 @@ jobs:
       labels: ${{ steps.docker-metadata.outputs.labels }}
       build-cache-name-amd64: ${{ steps.generate-build-cache-names.outputs.build-cache-name-amd64 }}
       build-cache-name-arm64: ${{ steps.generate-build-cache-names.outputs.build-cache-name-arm64 }}
+      build-cache-name-armv7: ${{ steps.generate-build-cache-names.outputs.build-cache-name-armv7 }}
       build-cache-pkg-name:  ${{ steps.generate-build-cache-names.outputs.build-cache-pkg-name }}
       # デフォルトブランチかタグの時のみPUSHする
       push: ${{ github.event_name != 'pull_request' && ( github.ref_name == github.event.repository.default_branch || github.ref_type == 'tag' ) }}
@@ -44,6 +45,7 @@ jobs:
           (
             echo "build-cache-name-amd64=${REGISTRY}/${x}:amd64"
             echo "build-cache-name-arm64=${REGISTRY}/${x}:arm64"
+            echo "build-cache-name-armv7=${REGISTRY}/${x}:armv7"
             echo "build-cache-pkg-name=${x#"${repository_owner}"/}"
           ) | tee -a "$GITHUB_OUTPUT"
         env:
@@ -91,6 +93,33 @@ jobs:
           build-cache-name: ${{ needs.meta-data.outputs.build-cache-name-arm64 }}
           labels: ${{ needs.meta-data.outputs.labels }}
 
+  build-armv7:
+    needs:
+      - meta-data
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Collect Workflow Telemetry
+        uses: catchpoint/workflow-telemetry-action@94c3c3d9567a0205de6da68a76c428ce4e769af1 # v2.0.0
+        with:
+          # Set to true to publish the results as comment to the PR (applicable if workflow run is triggered by PR).
+          comment_on_pr: false
+
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - uses: ./.github/actions/build/
+        with:
+          push: ${{ needs.meta-data.outputs.push }}
+          arch: linux/arm/v7
+          registry: ${{ env.REGISTRY }}
+          context-directory: ${{ inputs.context-directory }}
+          build-cache-name: ${{ needs.meta-data.outputs.build-cache-name-armv7 }}
+          labels: ${{ needs.meta-data.outputs.labels }}
+
   build-amd64:
     needs:
       - meta-data
@@ -124,6 +153,7 @@ jobs:
       - meta-data
       - build-amd64
       - build-arm64
+      - build-armv7
     permissions:
       contents: read
       packages: write
@@ -151,12 +181,13 @@ jobs:
           set -o posix
 
           for a in $multiarch_image; do
-            docker buildx imagetools create -t "$a" "$amd64_image" "$arm64_image"
+            docker buildx imagetools create -t "$a" "$amd64_image" "$arm64_image" "$armv7_image"
             echo
           done
         env:
           amd64_image: ${{ needs.meta-data.outputs.build-cache-name-amd64 }}
           arm64_image: ${{ needs.meta-data.outputs.build-cache-name-arm64 }}
+          armv7_image: ${{ needs.meta-data.outputs.build-cache-name-armv7 }}
           multiarch_image: ${{ needs.meta-data.outputs.tags }}
 
 
@@ -165,6 +196,7 @@ jobs:
       - meta-data
       - build-amd64
       - build-arm64
+      - build-armv7
       - combine-images
     # Runs even when the previous job was in error
     if: ${{ always() }}
