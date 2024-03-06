@@ -14,6 +14,8 @@ RUN \
     set -eu
     set -o posix
 
+    export DEBIAN_FRONTEND=noninteractive
+
     mv /etc/apt/apt.conf.d/docker-clean /
     yes | unminimize
 
@@ -36,7 +38,7 @@ RUN \
 
     apt-get update
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
     language-pack-ja \
     git \
     lsof \
@@ -49,7 +51,6 @@ RUN \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     openssh-client \
-    curl \
     wget \
     man \
     manpages \
@@ -74,10 +75,10 @@ RUN \
     shellcheck \
 
     # install docker client from docker-ce
-    DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce-cli docker-compose-plugin
+    apt-get -y install docker-ce-cli docker-compose-plugin
 
     # install GitHub CLI
-    DEBIAN_FRONTEND=noninteractive apt-get -y install gh
+    apt-get -y install gh
     gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
 
     # install my zsh config
