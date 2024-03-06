@@ -3,7 +3,23 @@ FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:7ce8d2e557b1b5a2a
 
 ARG NVM_VER=v0.39.7
 
-RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VER}/install.sh | bash
+RUN \
+    --mount=type=cache,target=/var/lib/apt/lists \
+    --mount=type=cache,target=/var/cache/apt \
+    <<'_EOFEOF_' bash
+
+    set -eu
+    set -o posix
+    set -o pipefail
+
+    if [[ $(arch) != "x86_64" && $(arch) != "aarch64" ]]; then
+        sudo apt-get update
+        DEBIAN_FRONTEND=noninteractive sudo apt-get install -y --no-install-recommends libatomic1
+    fi
+
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VER}/install.sh | bash
+
+_EOFEOF_
 
 # To reduce build time for a container image, separate build stages for each Node.js version and integrate them at the end.
 
