@@ -8,7 +8,7 @@ FROM ubuntu:jammy@sha256:f9d633ff6640178c2d0525017174a688e2c1aef28f0a0130b26bd55
 RUN \
     --mount=type=cache,target=/var/lib/apt/lists \
     --mount=type=cache,target=/var/cache/apt \
-    --mount=type=tmpfs,target=/tmp/packages \
+    --mount=type=cache,target=/tmp/packages \
     <<'_EOFEOF_' bash
     
     set -eu
@@ -89,7 +89,7 @@ _EOFEOF_
 
 # AWS CLI
 RUN \
-    --mount=type=tmpfs,target=/tmp/packages \
+    --mount=type=cache,target=/tmp/packages \
     --mount=type=tmpfs,target=/tmp/tmp \
     <<'_EOFEOF_' bash
 

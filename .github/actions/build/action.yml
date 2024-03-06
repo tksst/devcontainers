@@ -43,10 +43,10 @@ runs:
 
     - name: Generate cache scope
       id: generate-cache-scope
-      run: echo "cache-scope=${ref}-${arch}" | sed 's|/|-|g' | tee -a "$GITHUB_OUTPUT"
+      run: echo "cache-scope=${context-directory}-${arch}" | sed 's|/|-|g' | tee -a "$GITHUB_OUTPUT"
       shell: bash
       env:
-        ref: ${{ github.ref_name }}
+        context-directory: ${{ inputs.context-directory }}
         arch: ${{ inputs.arch }}
 
     # Build and push Docker image with Buildx (don't push on PR)
@@ -59,6 +59,6 @@ runs:
         platforms: ${{ inputs.arch }}
         tags: ${{ inputs.build-cache-name }}
         labels: ${{ inputs.labels }}
-        outputs: ${{ inputs.push == 'true' && 'type=registry' || 'type=oci,dest=/tmp/image.tar' }}
+        outputs: ${{ inputs.push == 'true' && 'type=registry' || 'type=cacheonly' }}
         cache-from: type=gha,scope=${{ steps.generate-cache-scope.outputs.cache-scope }}
         cache-to: type=gha,scope=${{ steps.generate-cache-scope.outputs.cache-scope }},mode=max
