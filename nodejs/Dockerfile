@@ -58,6 +58,6 @@ RUN <<'_EOFEOF_' zsh
     {
         echo '# Deno'
         echo 'export DENO_INSTALL="/home/user/.deno"'
-        echo 'export PATH="\$DENO_INSTALL/bin:\$PATH"'
+        echo 'export PATH="$DENO_INSTALL/bin:$PATH"'
     } >> ~/.zshrc
 _EOFEOF_
