@@ -48,7 +48,7 @@ RUN <<'_EOFEOF_' zsh
     source ~/.nvm/nvm.sh
     # install autocompletion
     # This also installs current latest pnpm by corepack
-    pnpm install-completion zsh
+    pnpm completion zsh >> ~/.zshrc
 
     ## Bun
     curl -fsSL https://bun.sh/install | bash
