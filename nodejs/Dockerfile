@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4.1
-FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:a72e57047fd935e196c26c4d77ad599ec38a03add3aa07c837ca7479fc84ba7c AS nvm
+FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:083176224de936fdee982beaac8da385da1446ad211931d3ce206b248c331a79 AS nvm
 
 ARG NVM_VER=v0.39.7
 
