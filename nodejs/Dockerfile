@@ -33,9 +33,15 @@ FROM nvm AS v20
 COPY ./setup.bash /tmp/setup.bash
 RUN NODE_VERSION=20 /tmp/setup.bash
 
+FROM nvm AS v22
+
+COPY ./setup.bash /tmp/setup.bash
+RUN NODE_VERSION=22 /tmp/setup.bash
+
 FROM nvm
 
 COPY --from=v18 /home/user/.nvm/ /home/user/.nvm/
+COPY --from=v22 /home/user/.nvm/ /home/user/.nvm/
 # v20をデフォルトにするため、最後にコピー
 COPY --from=v20 /home/user/.nvm/ /home/user/.nvm/
 
