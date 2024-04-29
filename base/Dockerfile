@@ -23,10 +23,6 @@ RUN \
 
     ZSHCONFIGDEB=tksst-zsh-config_1.2.0-1_all.deb 
 
-    # set up the latest stable upstream Git repository
-    apt-get install -y software-properties-common
-    add-apt-repository -y ppa:git-core/ppa
-
     # set up docker client repository
     apt-get install -y lsb-release curl
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg > /etc/apt/keyrings/docker.asc
