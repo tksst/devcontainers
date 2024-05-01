@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4.1
 
-FROM ubuntu:jammy@sha256:6d7b5d3317a71adb5e175640150e44b8b9a9401a7dd394f44840626aff9fa94d
+FROM ubuntu:noble@sha256:562456a05a0dbd62a671c1854868862a4687bf979a96d48ae8e766642cd911e8
 
 # /etc/apt/apt.conf.d/docker-clean disables /var/cache/apt/archives caching
 # so disabled temporarily
@@ -22,10 +22,6 @@ RUN \
     set -o pipefail
 
     ZSHCONFIGDEB=tksst-zsh-config_1.2.0-1_all.deb 
-
-    # set up the latest stable upstream Git repository
-    apt-get install -y software-properties-common
-    add-apt-repository -y ppa:git-core/ppa
 
     # set up docker client repository
     apt-get install -y lsb-release curl
