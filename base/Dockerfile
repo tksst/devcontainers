@@ -124,7 +124,7 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 # ミラーサイトを日本の理研にする
 COPY ./mirrors.txt /etc/apt/
-RUN perl -pe 's!(?<=deb(?:-src)?\s)http://archive.ubuntu.com/ubuntu/(?=\s)!mirror+file:/etc/apt/mirrors.txt!g' -i /etc/apt/sources.list
+RUN perl -pe 's!(?<=URIs:\s{0,100})http://(?:jp\.)?archive\.ubuntu\.com/ubuntu/?(?=\s)!mirror+file:/etc/apt/mirrors.txt!g' -i /etc/apt/sources.list.d/ubuntu.sources
 
 ARG USER=user
 
