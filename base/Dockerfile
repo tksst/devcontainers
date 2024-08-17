@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4.1
 
-FROM ubuntu:noble@sha256:2e863c44b718727c860746568e1d54afd13b2fa71b160f5cd9058fc436217b30
+FROM ubuntu:noble@sha256:8a37d68f4f73ebf3d4efafbcf66379bf3728902a8038616808f04e34a9ab63ee
 
 # /etc/apt/apt.conf.d/docker-clean disables /var/cache/apt/archives caching
 # so disabled temporarily
