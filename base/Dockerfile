@@ -17,7 +17,9 @@ RUN \
     export DEBIAN_FRONTEND=noninteractive
 
     mv /etc/apt/apt.conf.d/docker-clean /
+    apt-get install --update --yes unminimize
     yes | unminimize
+    apt-get remove --yes unminimize
 
     set -o pipefail
 
