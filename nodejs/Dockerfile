@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4.1
 FROM ghcr.io/tksst/devcontainers/devcontainer-base:main@sha256:4450a5a34256b633735ba050e72165c11e2afb41a0a7aba958fff899e389b88a AS nvm
 
-ARG NVM_VER=v0.40.1
+ARG NVM_VER=v0.40.3
 
 RUN \
     --mount=type=cache,target=/var/lib/apt/lists \
