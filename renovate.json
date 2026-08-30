@@ -1,11 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>tksst/renovate-config", "schedule:automergeDaily"],
+  "extends": [
+    "github>tksst/renovate-config",
+    "schedule:automergeDaily"
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch" : ["Dockerfile"],
-      "matchStrings" : [
+      "managerFilePatterns": [
+        "/Dockerfile/"
+      ],
+      "matchStrings": [
         "\\nARG NVM_VER=(?<currentValue>.*?)\\n"
       ],
       "datasourceTemplate": "github-releases",
@@ -14,17 +19,33 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["ubuntu"],
-      "matchDepTypes": ["final"],
-      "matchUpdateTypes": ["digest"],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackageNames": [
+        "ubuntu"
+      ],
+      "matchDepTypes": [
+        "final"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": true
     },
     {
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["ghcr.io/tksst/devcontainers/devcontainer-base"],
-      "matchDepTypes": ["final"],
-      "matchUpdateTypes": ["digest"],
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/tksst/devcontainers/devcontainer-base"
+      ],
+      "matchDepTypes": [
+        "final"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": true
     }
   ]
